@@ -1,11 +1,14 @@
 package com.example.crossy;
 
+import Utils.Loader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
+
 import Entities.*;
 
 public class HelloApplication extends Application {
@@ -27,6 +30,19 @@ public class HelloApplication extends Application {
         crossword.printUnsolvedBoard();
         System.out.println();
         crossword.printCrossword();
+
+        var board = Loader.loadSolutionMapFromFile("src/main/resources/example_solution.txt");
+        int boardSize=10;
+        for(int i = 0; i< boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if (board.containsKey(i * boardSize + j))
+                    System.out.print(board.get(i * boardSize + j));
+                else
+                    System.out.print('#');
+            }
+            System.out.println();
+        }
+        System.out.println(crossword.isValidSolution(board));
     }
 
     public static void main(String[] args) {

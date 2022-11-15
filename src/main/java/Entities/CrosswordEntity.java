@@ -17,10 +17,10 @@ public class CrosswordEntity {
     }
 
     public void construct(CrosswordDictionary dictionary,int expectedClues){
-        Random seedGen = new Random();
-        long seed = seedGen.nextLong();
-        Random random = new Random(seed);
-        System.err.println(seed);
+        //Random seedGen = new Random();
+        //long seed = seedGen.nextLong();
+        Random random = new Random(0);
+        //System.err.println(seed);
         int cls=0;
         int nextNo=1;
         Orientation currOrientation = Orientation.HORIZONTAL;
@@ -156,4 +156,9 @@ public class CrosswordEntity {
             }
         }
     }
+
+    public boolean isValidSolution(HashMap<Integer,Character> map) {
+        return this.board.equals(map);
+    }
+
 }
