@@ -17,9 +17,9 @@ public class CrosswordEntity {
     }
 
     public void construct(CrosswordDictionary dictionary,int expectedClues){
-        //Random seedGen = new Random();
-        //long seed = seedGen.nextLong();
-        Random random = new Random(0);
+        Random seedGen = new Random();
+        long seed = seedGen.nextLong();
+        Random random = new Random(seed);
         //System.err.println(seed);
         int cls=0;
         int nextNo=1;
@@ -32,7 +32,7 @@ public class CrosswordEntity {
                 if(isNewWordLegal(temp,position)){
                     //System.err.println(temp.getWord() + " " + rx + " " + ry + " " + currOrientation);
                     int localNo = nextNo;
-                    if(clues.containsKey(new ClueEntity(temp,position.getRow(),position.getColumn(),currOrientation.returnOpposite()))) {
+                    if(clues.containsKey(new ClueEntity(temp,position.getRow(),position.getColumn(),currOrientation.returnOpposite()))) { //some bugs here probably (horizontal and vertical starting at the same place get different numbers) - we need to check anyone starting here, not only temp's
                         localNo = clues.get(new ClueEntity(temp, position.getRow(), position.getColumn(), currOrientation.returnOpposite()));
                         nextNo--;
                     }
