@@ -1,5 +1,8 @@
 package Entities;
 
+import Containers.Position;
+import Enums.Orientation;
+
 import java.util.*;
 
 public class CrosswordEntity {
@@ -20,29 +23,23 @@ public class CrosswordEntity {
         System.err.println(seed);
         int cls=0;
         int nextNo=1;
+        Orientation currOrientation = Orientation.HORIZONTAL;
         while(cls<expectedClues){
             DictionaryEntity temp = dictionary.getRandom(random.nextLong());
             int tries=0;
             while(tries<200) {
-                int rx = random.nextInt() % boardSize;
-                if(rx<0)
-                    rx+=boardSize;
-                int ry = random.nextInt() % boardSize;
-                if(ry<0)
-                    ry+=boardSize;
-                int rr = cls % 2;
-                if(rr<0)
-                    rr+=1;
-                if(isNewWordLegal(temp,rx,ry,rr)){
-                    System.err.println(temp.getWord() + " " + rx + " " + ry + " " + rr);
+                Position position = Position.randomPosition(random,boardSize,currOrientation);
+                if(isNewWordLegal(temp,position)){
+                    //System.err.println(temp.getWord() + " " + rx + " " + ry + " " + currOrientation);
                     int localNo = nextNo;
-                    if(clues.containsKey(new ClueEntity(temp,rx,ry,rr==0?1:0))) {
-                        localNo = clues.get(new ClueEntity(temp, rx, ry, rr == 0 ? 1 : 0));
+                    if(clues.containsKey(new ClueEntity(temp,position.getRow(),position.getColumn(),currOrientation.returnOpposite()))) {
+                        localNo = clues.get(new ClueEntity(temp, position.getRow(), position.getColumn(), currOrientation.returnOpposite()));
                         nextNo--;
                     }
                     nextNo++;
-                    clues.put(new ClueEntity(temp,rx,ry,rr),localNo);
-                    insertIntoBoard(temp,rx,ry,rr);
+                    clues.put(new ClueEntity(temp,position),localNo);
+                    insertIntoBoard(temp,position);
+                    currOrientation = currOrientation.returnOpposite();
                     cls++;
                     break;
                 }
@@ -51,8 +48,11 @@ public class CrosswordEntity {
         }
     }
 
-    private boolean isNewWordLegal(DictionaryEntity entity,int rx, int ry, int rr){
-        if(clues.containsKey(new ClueEntity(entity,rx,ry,rr)))
+    private boolean isNewWordLegal(DictionaryEntity entity,Position position){
+        int rx = position.getRow();
+        int ry = position.getColumn();
+        int rr = position.getOrientation() == Orientation.HORIZONTAL?0:1;
+        if(clues.containsKey(new ClueEntity(entity,rx,ry,position.getOrientation())))
             return false;
         if(rr==0 && board.containsKey((rx)*boardSize+ry-1))
             return false;
@@ -88,11 +88,13 @@ public class CrosswordEntity {
         return true;
     }
 
-    private void insertIntoBoard(DictionaryEntity entity,int rx, int ry, int rr){
+    private void insertIntoBoard(DictionaryEntity entity,Position position){
+        int rx = position.getRow();
+        int ry = position.getColumn();
         for(int i=0;i<entity.getWord().length();i++){
             if(!board.containsKey(rx* boardSize +ry))
                 board.put(rx* boardSize +ry,entity.getWord().charAt(i));
-            if(rr==0)
+            if(position.getOrientation()==Orientation.HORIZONTAL)
                 ry++;
             else
                 rx++;
@@ -126,7 +128,7 @@ public class CrosswordEntity {
     public void printCrossword(){
         Map<Integer,Character> map = new HashMap<>(board);
         for (ClueEntity clue:clues.keySet()) {
-            map.put(clue.getX()*boardSize+clue.getY(),Character.forDigit(clues.get(clue),10));
+            map.put(clue.getPosition().getIndex(boardSize),Character.forDigit(clues.get(clue),10));
         }
         for(int i = 0; i< boardSize; i++){
             for(int j = 0; j< boardSize; j++){
@@ -143,13 +145,13 @@ public class CrosswordEntity {
         }
         System.out.println("HORIZONTALY: ");
         for (ClueEntity clue:clues.keySet()) {
-            if(clue.getR()==0){
+            if(clue.getPosition().getOrientation()==Orientation.HORIZONTAL){
                 System.out.println(clues.get(clue) + ". " + clue.getDefinition());
             }
         }
         System.out.println("VERTICALY: ");
         for (ClueEntity clue:clues.keySet()) {
-            if(clue.getR()==1){
+            if(clue.getPosition().getOrientation()==Orientation.VERTICAL){
                 System.out.println(clues.get(clue) + ". " + clue.getDefinition());
             }
         }

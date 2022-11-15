@@ -1,35 +1,22 @@
 package Entities;
 
+import Containers.Position;
+import Enums.Orientation;
+
 import java.util.Objects;
 
 public class ClueEntity extends DictionaryEntity{
-    public int getX() {
-        return x;
-    }
-
-    public int getR() {
-        return r;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    private int x,y,r;//x,y of the beginning of the word on the board and rotation 0 - horizontal, 1 - vertical
-    public ClueEntity(DictionaryEntity dictionaryEntity,int x, int y, int r){
+    private Position position;
+    ClueEntity(DictionaryEntity dictionaryEntity,Position position){
         super(dictionaryEntity);
-        this.x = x;
-        this.y = y;
-        this.r = r;
+        this.position = position;
+    }
+    public ClueEntity(DictionaryEntity dictionaryEntity,int row, int column, Orientation orientation){
+        super(dictionaryEntity);
+        this.position = new Position(row,column,orientation);
     }
     public ClueEntity(){
-        this(new DictionaryEntity(),-1,-1,-1);
-    }
-
-    public void setCoordinates(int x, int y, int r){
-        this.x = x;
-        this.y = y;
-        this.r = r;
+        this(new DictionaryEntity(),-1,-1,null);
     }
 
     @Override
@@ -38,6 +25,10 @@ public class ClueEntity extends DictionaryEntity{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ClueEntity that = (ClueEntity) o;
-        return x == that.x && y == that.y && r == that.r;
+        return Objects.equals(position, that.position);
+    }
+
+    public Position getPosition() {
+        return position;
     }
 }
