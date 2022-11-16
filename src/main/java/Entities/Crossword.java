@@ -5,17 +5,21 @@ import Containers.Position;
 import Enums.Orientation;
 import Enums.ReprezentationType;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Crossword {
+public class Crossword implements Serializable {
     private final int boardSize;
-    private Map<ClueEntity,Integer> clues;
+    private HashMap<ClueEntity,Integer> clues;
     //private Map<Integer,Character> board;
 
     public Crossword(int boardSize){
+        this(boardSize,new HashMap<>());
+    }
+
+    public Crossword(int boardSize,HashMap<ClueEntity,Integer> clues){
         this.boardSize = boardSize;
-        clues = new HashMap<>();
-        //board = new HashMap<>();
+        this.clues = clues;
     }
 
     public void generateFromDictionary(CrosswordDictionary dictionary, int expectedClues){

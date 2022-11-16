@@ -1,8 +1,9 @@
 package Entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class DictionaryEntity {
+public class DictionaryEntity implements Serializable {
     public String getWord() {
         return word;
     }

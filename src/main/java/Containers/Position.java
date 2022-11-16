@@ -2,10 +2,11 @@ package Containers;
 
 import Enums.Orientation;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
 
-public class Position {
+public class Position implements Serializable {
     private int row,column;
     private Orientation orientation;
     public Position(int row, int column, Orientation orientation){

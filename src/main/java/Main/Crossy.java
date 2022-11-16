@@ -3,6 +3,7 @@ package Main;
 import Entities.CrosswordDictionary;
 import Entities.Crossword;
 import Enums.ReprezentationType;
+import Utils.Serializer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -52,16 +53,34 @@ public class Crossy extends Application implements EventHandler<ActionEvent> {
         if(event.getSource() == generateButton){
             crossword = new Crossword(10);
             crossword.generateFromDictionary(dictionary,8);
+            try {
+                Serializer.saveCrosssword(crossword,"test_serial");
+                crossword.getBoardRepresentation(ReprezentationType.SOLVED).print();
+                System.out.println();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
         if(event.getSource() == printButton){
-            //crossword.printCrossword();
+
+            try {
+                crossword = Serializer.loadCrossword("test_serial");
+                crossword.getBoardRepresentation(ReprezentationType.SOLVED).print();
+                System.out.println();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            /*crossword.printCrossword();
             crossword.getBoardRepresentation(ReprezentationType.SOLVED).print();
             System.out.println();
             crossword.getBoardRepresentation(ReprezentationType.UNSOLVED_JOLKA).print();
             System.out.println();
             crossword.getBoardRepresentation(ReprezentationType.UNSOLVED).print();
             System.out.println();
-            crossword.printCrossword();
+            crossword.printCrossword();*/
         }
     }
 }

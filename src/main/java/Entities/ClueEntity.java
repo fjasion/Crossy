@@ -3,9 +3,10 @@ package Entities;
 import Containers.Position;
 import Enums.Orientation;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class ClueEntity extends DictionaryEntity{
+public class ClueEntity extends DictionaryEntity implements Serializable {
     private Position position;
     ClueEntity(DictionaryEntity dictionaryEntity,Position position){
         super(dictionaryEntity);

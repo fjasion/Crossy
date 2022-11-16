@@ -1,6 +1,8 @@
 package Enums;
 
-public enum Orientation {
+import java.io.Serializable;
+
+public enum Orientation implements Serializable {
     HORIZONTAL,
     VERTICAL;
     public Orientation returnOpposite(){
