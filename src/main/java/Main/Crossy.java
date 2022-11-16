@@ -1,7 +1,8 @@
 package Main;
 
 import Entities.CrosswordDictionary;
-import Entities.CrosswordEntity;
+import Entities.Crossword;
+import Enums.ReprezentationType;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,7 +17,7 @@ public class Crossy extends Application implements EventHandler<ActionEvent> {
 
     Button generateButton;
     Button printButton;
-    CrosswordEntity crossword=null;
+    Crossword crossword=null;
     CrosswordDictionary dictionary = null;
 
     @Override
@@ -49,10 +50,17 @@ public class Crossy extends Application implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         if(event.getSource() == generateButton){
-            crossword = new CrosswordEntity(10);
-            crossword.construct(dictionary,6);
+            crossword = new Crossword(10);
+            crossword.generateFromDictionary(dictionary,8);
         }
         if(event.getSource() == printButton){
+            //crossword.printCrossword();
+            crossword.getBoardRepresentation(ReprezentationType.SOLVED).print();
+            System.out.println();
+            crossword.getBoardRepresentation(ReprezentationType.UNSOLVED_JOLKA).print();
+            System.out.println();
+            crossword.getBoardRepresentation(ReprezentationType.UNSOLVED).print();
+            System.out.println();
             crossword.printCrossword();
         }
     }

@@ -7,14 +7,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import Entities.*;
 
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+        /*FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello!");
         stage.setScene(scene);
@@ -23,11 +22,11 @@ public class HelloApplication extends Application {
         dictionary.load("src/main/resources/example_data.txt");
         for(var x:dictionary.getWordEntityList())
             System.out.println(x.getWord() + "   " + x.getDefinition());
-        CrosswordEntity crossword = new CrosswordEntity(10);
-        crossword.construct(dictionary,6);
-        crossword.printSolvedBoard();
+        Crossword crossword = new Crossword(10);
+        crossword.generateFromDictionary(dictionary,6);
+        //crossword.printSolvedBoard();
         System.out.println();
-        crossword.printUnsolvedBoard();
+        //crossword.printUnsolvedBoard();
         System.out.println();
         crossword.printCrossword();
 
@@ -42,7 +41,7 @@ public class HelloApplication extends Application {
             }
             System.out.println();
         }
-        System.out.println(crossword.isValidSolution(board));
+        //System.out.println(crossword.isValidSolution(board));*/
     }
 
     //public static void main(String[] args) {

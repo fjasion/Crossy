@@ -1,6 +1,8 @@
 package Utils;
 
+import Containers.BoardRepresentation;
 import Entities.DictionaryEntity;
+import Enums.ReprezentationType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,17 +12,18 @@ import java.util.Scanner;
 public class Loader {
 
 
-    public static HashMap<Integer,Character> loadSolutionMapFromFile(String path){
-        HashMap<Integer,Character> map = new HashMap<>();
+    public static BoardRepresentation loadSolutionMapFromFile(String path){
+        BoardRepresentation board = null;
         int cntr=0;
         try {
             File file = new File(path);
             Scanner scanner = new Scanner(file);
+            board = new BoardRepresentation(Integer.parseInt(scanner.nextLine(),10), ReprezentationType.SOLVED);
             while(scanner.hasNextLine())
             {
                 for(char c:scanner.nextLine().toCharArray()){
                     if(c != '#')
-                        map.put(cntr,c);
+                        board.insert(cntr,c);
                     cntr++;
                 }
             }
@@ -28,6 +31,6 @@ public class Loader {
         catch (FileNotFoundException e){
             e.printStackTrace();
         }
-        return map;
+        return board;
     }
 }
