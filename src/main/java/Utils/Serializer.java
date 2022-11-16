@@ -7,11 +7,11 @@ import java.io.*;
 
 public class Serializer {
     public static void saveCrosssword(Crossword crossword,String filename) throws IOException {
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(filename+".crossy"));
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(filename));
         objectOutputStream.writeObject(crossword);
     }
     public static Crossword loadCrossword(String filename) throws IOException, ClassNotFoundException {
-        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(filename+".crossy"));
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(filename));
         Crossword crossword = (Crossword) objectInputStream.readObject();
         return crossword;
     }

@@ -57,6 +57,7 @@ public class Crossword implements Serializable {
                 tries++;
             }
         }
+        System.err.println("Successfully generated crossword");
     }
 
     private boolean isClueAtPosition(Position position){
