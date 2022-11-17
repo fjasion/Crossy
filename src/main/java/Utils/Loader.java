@@ -50,11 +50,12 @@ public class Loader {
         }
         return dictionary;
     }
-    public static BoardRepresentation loadSolutionMapFromFile(String path){
+    public static BoardRepresentation loadSolutionFromFile(){
         BoardRepresentation board = null;
         int cntr=0;
+        String filename = PathSelectionWindow.getPath("Load Solution","Load file:","filename");
         try {
-            File file = new File(path);
+            File file = new File(filename+".txt");
             Scanner scanner = new Scanner(file);
             board = new BoardRepresentation(Integer.parseInt(scanner.nextLine(),10), ReprezentationType.SOLVED);
             while(scanner.hasNextLine())
@@ -66,8 +67,8 @@ public class Loader {
                 }
             }
         }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
+        catch (FileNotFoundException exception){
+            AlertBox.display("ERROR","Unable to load solution: " + exception.getMessage());
         }
         return board;
     }
