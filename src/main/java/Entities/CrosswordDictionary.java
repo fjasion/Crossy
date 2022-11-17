@@ -10,6 +10,10 @@ public class CrosswordDictionary {
     public CrosswordDictionary(){
         data = new HashSet<>();
     }
+    public CrosswordDictionary(CrosswordDictionary dictionary){
+        data = new HashSet<>(dictionary.data);
+    }
+
 
     public List<DictionaryEntity> getWordEntityList() {
         return data.stream().toList();

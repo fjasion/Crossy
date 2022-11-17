@@ -3,6 +3,7 @@ package Containers;
 import Entities.ClueEntity;
 import Enums.Orientation;
 import Enums.ReprezentationType;
+import Main.CONFIG;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,11 @@ public class BoardRepresentation {
     private HashMap<Integer,Character> board;
     private ReprezentationType repType;
 
+    public BoardRepresentation(BoardRepresentation br){
+        this.boardSize = br.boardSize;
+        this.board = new HashMap<>(br.board);
+        this.repType = br.repType;
+    }
     public BoardRepresentation(Map<ClueEntity,Integer> clues, int boardSize, ReprezentationType repType){
         this.boardSize = boardSize;
         this.repType = repType;
@@ -101,7 +107,7 @@ public class BoardRepresentation {
                 if(board.containsKey(i* boardSize +j))
                     System.out.print(board.get(i*boardSize+j));
                 else
-                    System.out.print('#');
+                    System.out.print(CONFIG.FILL_CHARACTER);
             }
             System.out.println();
         }

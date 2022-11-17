@@ -1,5 +1,6 @@
 package Main;
 
+import CustomExceptions.GenerationTimeExceeded;
 import Entities.CrosswordDictionary;
 import Entities.Crossword;
 import Enums.ReprezentationType;
@@ -26,7 +27,8 @@ public class Crossy extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("Crossy");
-
+        dictionary = new CrosswordDictionary();
+        dictionary.load("example_data.txt");
         Button dictionaryButton = new Button("Import dictionary");
         Button generateButton = new Button("Generate crossword");
         Button saveButton = new Button("Save crossword");
@@ -37,7 +39,12 @@ public class Crossy extends Application {
 
         generateButton.setOnAction(e-> {
             crossword = new Crossword(10);
-            crossword.generateFromDictionary(dictionary, 8);
+            try {
+                crossword.generateFromDictionary(dictionary, 12);
+            }
+            catch (GenerationTimeExceeded exception){
+                AlertBox.display("ERROR","Crossword max generation time exceeded \n try decreasing number of words/increasing board or dictionary size");
+            }
         });
         saveButton.setOnAction(e->Loader.saveCrossword(crossword));
         loadButton.setOnAction(e->crossword = Loader.loadCrossword());
