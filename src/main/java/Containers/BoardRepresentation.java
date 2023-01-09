@@ -120,4 +120,8 @@ public class BoardRepresentation {
         BoardRepresentation that = (BoardRepresentation) o;
         return boardSize == that.boardSize && Objects.equals(board, that.board);
     }
+
+    public Map<Integer,Character> getCharacterMap(){
+        return new HashMap<>(board);
+    }
 }

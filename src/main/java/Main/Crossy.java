@@ -6,6 +6,7 @@ import Entities.CrosswordDictionary;
 import Entities.Crossword;
 import Enums.ReprezentationType;
 import UI.AlertBox;
+import UI.CrosswordWindow;
 import UI.PrintCrosswordBox;
 import Utils.Loader;
 import Utils.Serializer;
@@ -43,7 +44,8 @@ public class Crossy extends Application {
         Button saveButton = new Button("Save crossword");
         Button loadButton = new Button("Load crossword");
         Button checkButton = new Button("Check crossword");
-        Button printButton = new Button("Print options");
+        Button consolePrintButton = new Button("Console print options");
+        Button betaPrintButton = new Button("Beta print");
 
         dictionaryButton.setOnAction(e-> dictionary = Loader.loadDictionary());
 
@@ -65,10 +67,11 @@ public class Crossy extends Application {
             else
                 AlertBox.display("Solution","Invalid solution");
         });
-        printButton.setOnAction(e->PrintCrosswordBox.display(crossword));
+        consolePrintButton.setOnAction(e->PrintCrosswordBox.display(crossword));
+        betaPrintButton.setOnAction(e-> CrosswordWindow.displaySolvable(crossword,ReprezentationType.UNSOLVED));
 
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(boardSizeTextField,expectedCluesTextBox,dictionaryButton,generateButton,saveButton,loadButton,checkButton,printButton);
+        layout.getChildren().addAll(boardSizeTextField,expectedCluesTextBox,dictionaryButton,generateButton,saveButton,loadButton,checkButton,consolePrintButton,betaPrintButton);
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout,600,500);

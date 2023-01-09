@@ -137,6 +137,26 @@ public class Crossword implements Serializable {
         return new BoardRepresentation(clues,boardSize,repType);
     }
 
+    public ArrayList<String> getClues(Orientation orientation){
+        ArrayList<String> temp = new ArrayList<>();
+        for(int i=0;i<clues.size()+1;i++)
+            temp.add(null);
+        for(ClueEntity clue:clues.keySet())
+            if(clue.getPosition().getOrientation() == orientation) {
+                String str = clues.get(clue).toString() + ". " + clue.getDefinition();
+                temp.set(clues.get(clue), str);
+            }
+        ArrayList<String> ans = new ArrayList<>();
+        for(String s:temp)
+            if(s != null)
+                ans.add(s);
+        return ans;
+    }
+
+    public int getBoardSize() {
+        return boardSize;
+    }
+
     public void printCrossword(){
         getBoardRepresentation(ReprezentationType.UNSOLVED).print();
         System.out.println("HORIZONTALY: ");
@@ -152,9 +172,7 @@ public class Crossword implements Serializable {
             }
         }
     }
-
     public boolean isValidSolution(BoardRepresentation boardRepresentation) {
         return this.getBoardRepresentation(ReprezentationType.SOLVED).equals(boardRepresentation);
     }
-
 }

@@ -1,5 +1,3 @@
-DUPA
-Pierwsze slowo
 SLOWO
 slowo
 PAPA
@@ -40,3 +38,13 @@ OBIAD
 obiad
 KAWA
 kawa
+MAMA
+mama
+TATA
+tata
+README
+readme
+SYSTEM
+system
+KACZKA
+kaczka
