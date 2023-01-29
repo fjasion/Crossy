@@ -4,18 +4,12 @@ import Containers.BoardRepresentation;
 import Entities.Crossword;
 import Enums.Orientation;
 import Enums.ReprezentationType;
-import javafx.beans.InvalidationListener;
-import javafx.collections.ArrayChangeListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -68,14 +62,22 @@ public class CrosswordWindow {
         BoardRepresentation board = crossword.getBoardRepresentation(repType);
         var map = board.getCharacterMap();
         var mapTextFields = new HashMap<Integer,TextField>();
-        for(var x:map.keySet()){
-            TextField textField = new TextField();
-            textField.setPromptText(map.get(x).toString());
-            textField.setMaxSize(labelSize,labelSize);
-            textField.setMinSize(labelSize,labelSize);
-            textField.setAlignment(Pos.CENTER);
-            mapTextFields.put(x,textField);
-            grid.add(textField,x-((x/crossword.getBoardSize())* crossword.getBoardSize()),x/crossword.getBoardSize());
+        for(Integer x=0;x<crossword.getBoardSize()*crossword.getBoardSize();x++){
+            if(map.containsKey(x)){
+                TextField textField = new TextField();
+                textField.setPromptText(map.get(x).toString());
+                textField.setMaxSize(labelSize,labelSize);
+                textField.setMinSize(labelSize,labelSize);
+                textField.setAlignment(Pos.CENTER);
+                mapTextFields.put(x,textField);
+                grid.add(textField,x-((x/crossword.getBoardSize())* crossword.getBoardSize()),x/crossword.getBoardSize());
+            }
+            else{
+                AnchorPane anchorPane = new AnchorPane();
+                anchorPane.setMaxSize(labelSize,labelSize);
+                anchorPane.setMinSize(labelSize,labelSize);
+                grid.add(anchorPane,x-((x/crossword.getBoardSize())* crossword.getBoardSize()),x/crossword.getBoardSize());
+            }
         }
         grid.setAlignment(Pos.CENTER);
 
@@ -87,8 +89,8 @@ public class CrosswordWindow {
         clues.addAll(crossword.getClues(Orientation.VERTICAL));
 
         ListView<String> listView = new ListView<>();
-        listView.setMaxSize(400,600);
-        listView.setMinSize(400,600);
+        listView.setMaxSize(400,650);
+        listView.setMinSize(400,650);
         ObservableList<String> observableList = FXCollections.observableArrayList(clues);
         listView.setItems(observableList);
 
@@ -99,16 +101,18 @@ public class CrosswordWindow {
         checkButton.setOnAction(e->checkSolution(crossword,mapTextFields));
 
         VBox vBox = new VBox();
-        vBox.setMaxWidth(400);
-        vBox.setMaxWidth(400);
+        listView.setMaxSize(400,650);
+        listView.setMinSize(400,650);
         vBox.setAlignment(Pos.CENTER);
-        vBox.setSpacing(20);
+        vBox.setSpacing(50);
 
         vBox.getChildren().addAll(listView,checkButton);
 
         HBox hBox = new HBox();
         hBox.getChildren().addAll(grid,vBox);
-        Scene scene = new Scene(hBox,1300,800);
+        hBox.setSpacing(50);
+        hBox.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(hBox,1350,900);
         window.setScene(scene);
         window.showAndWait();
     }
@@ -116,7 +120,7 @@ public class CrosswordWindow {
     public static void checkSolution(Crossword crossword, Map<Integer,TextField> textFieldMap){
         Map<Integer,Character> characterMap = crossword.getBoardRepresentation(ReprezentationType.SOLVED).getCharacterMap();
         for(Integer i:textFieldMap.keySet()){
-            if(textFieldMap.get(i).getText() == null || textFieldMap.get(i).getText().length() < 1 || textFieldMap.get(i).getText().charAt(0) != characterMap.get(i)) {
+            if(textFieldMap.get(i).getText() == null || textFieldMap.get(i).getText().length() < 1 || Character.toLowerCase(textFieldMap.get(i).getText().charAt(0)) != Character.toLowerCase(characterMap.get(i))) {
                 AlertBox.display("Solution", "Invalid solution :(");
                 return;
             }

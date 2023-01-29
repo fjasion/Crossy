@@ -47,7 +47,11 @@ public class Crossy extends Application {
         Button consolePrintButton = new Button("Console print options");
         Button betaPrintButton = new Button("Beta print");
 
-        dictionaryButton.setOnAction(e-> dictionary = Loader.loadDictionary());
+        dictionaryButton.setOnAction(e-> {
+            CrosswordDictionary dict = Loader.loadDictionary();
+            if(dict != null)
+                dictionary = dict;
+        });
 
         generateButton.setOnAction(e-> {
             crossword = new Crossword(Integer.parseInt(boardSizeTextField.getText()));

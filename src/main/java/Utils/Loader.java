@@ -47,6 +47,7 @@ public class Loader {
             System.err.println("Maybe successfully loaded");
         } catch (Exception exception) {
             AlertBox.display("ERROR","Unable to load dictionary: " + exception.getMessage());
+            return null;
         }
         return dictionary;
     }
