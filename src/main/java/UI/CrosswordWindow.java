@@ -52,11 +52,11 @@ public class CrosswordWindow {
         Stage window = new Stage();
         window.setTitle("crossword");
 
-        int labelSize = 800/ crossword.getBoardSize();
+        int labelSize = 600/ crossword.getBoardSize();
 
         GridPane grid = new GridPane();
-        grid.setMaxSize(800,800);
-        grid.setMinSize(800,800);
+        grid.setMaxSize(600,600);
+        //grid.setMinSize(800,800);
 
         grid.setGridLinesVisible(true);
         BoardRepresentation board = crossword.getBoardRepresentation(repType);
@@ -89,8 +89,8 @@ public class CrosswordWindow {
         clues.addAll(crossword.getClues(Orientation.VERTICAL));
 
         ListView<String> listView = new ListView<>();
-        listView.setMaxSize(400,650);
-        listView.setMinSize(400,650);
+        listView.setMaxSize(200,250);
+        listView.setMinSize(200,650);
         ObservableList<String> observableList = FXCollections.observableArrayList(clues);
         listView.setItems(observableList);
 
@@ -101,8 +101,8 @@ public class CrosswordWindow {
         checkButton.setOnAction(e->checkSolution(crossword,mapTextFields));
 
         VBox vBox = new VBox();
-        listView.setMaxSize(400,650);
-        listView.setMinSize(400,650);
+        listView.setMaxSize(200,450);
+        listView.setMinSize(200,450);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(50);
 
@@ -112,7 +112,7 @@ public class CrosswordWindow {
         hBox.getChildren().addAll(grid,vBox);
         hBox.setSpacing(50);
         hBox.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(hBox,1350,900);
+        Scene scene = new Scene(hBox,1100,700);
         window.setScene(scene);
         window.showAndWait();
     }

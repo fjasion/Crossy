@@ -21,7 +21,8 @@ public class Loader {
         try {
             String filename = PathSelectionWindow.getPath("Save Crossword","Save as:","filename");
             Serializer.saveCrosssword(crossword,filename + CONFIG.CROSSWORD_FILE_EXTENSION);
-            System.err.println("Successfully saved");
+            AlertBox.display("SUCCESS","Successfully saved crossword");
+            //System.err.println("Successfully saved");
         } catch (IOException exception) {
             AlertBox.display("ERROR","Unable to save crossroad: " + exception.getMessage());
         }
@@ -32,7 +33,8 @@ public class Loader {
         try {
             String filename = PathSelectionWindow.getPath("Load Crossword","Load file:","filename");
             crossword = Serializer.loadCrossword(filename + CONFIG.CROSSWORD_FILE_EXTENSION);
-            System.err.println("Maybe successfully loaded");
+            AlertBox.display("SUCCESS","Successfully loaded crossword");
+            //System.err.println("Maybe successfully loaded");
         } catch (Exception exception) {
             AlertBox.display("ERROR","Unable to load crossroad: " + exception.getMessage());
         }
@@ -44,7 +46,8 @@ public class Loader {
         try {
             String filename = PathSelectionWindow.getPath("Load Dictionary","Load file:","filename");
             dictionary.load(filename + ".txt");
-            System.err.println("Maybe successfully loaded");
+            AlertBox.display("SUCCESS","Successfully loaded dictionary");
+            //System.err.println("Maybe successfully loaded");
         } catch (Exception exception) {
             AlertBox.display("ERROR","Unable to load dictionary: " + exception.getMessage());
             return null;
